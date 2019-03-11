@@ -19,10 +19,13 @@
 */
 const child_process = require("child_process");
 
+/* 
+    Use exec.
+*/
 for (let i = 0; i < 3; i++) {
     /* child_process.exec(command[, options], callback) */
     /* callback <Function> called with the output when process terminates. */
-    const childProcessor = child_process.exec("node child.js " + i, function(error, stdout, stderr) {
+    const childProcessorExec = child_process.exec("node child.js " + i, function(error, stdout, stderr) {
         if (error) {
             console.error(`exec error: ${error}`);
             return;
@@ -34,8 +37,28 @@ for (let i = 0; i < 3; i++) {
         // console.log("stderr: " + stderr);
     });
 
-    childProcessor.on("exit", function(code) {
+    childProcessorExec.on("exit", function(code) {
         /* Any exit code other than 0 is considered to be an error. */
         console.log("Child process exited, code: " + code);
+    });
+}
+
+/* 
+    Use spawn.
+*/
+for (let i = 0; i < 3; i++) {
+    /* child_process.spawn(command[, args][, options]) */
+    /* args is an array of string */
+    const childProcessorSpawn = child_process.spawn("node", ["child.js", i]);
+    childProcessorSpawn.stdout.on("data", (data) => {
+        console.log(`stdout: ${data}`);
+    });
+    childProcessorSpawn.stderr.on("data", (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    childProcessorSpawn.on("close", function(code) {
+        /* Any exit code other than 0 is considered to be an error. */
+        console.log("Child process closed, code: " + code);
     });
 }
