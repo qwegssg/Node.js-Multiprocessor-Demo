@@ -1,10 +1,28 @@
-/* ES6 module */
-import { exec } from "child_process";
-// import child_process from "child_process";
+/* 
+    <import> is from ES6 module.
+    <exec> is in child_process module in Node.js/lib:
+
+    exports.exec = function exec(command, options, callback) {
+    const opts = normalizeExecArgs(command, options, callback);
+    return exports.execFile(opts.file,
+                            opts.options,
+                            opts.callback);
+    };
+
+    Attention: As of now, Node.js doesn't support ES6 imports yet. 
+    However, we can use them today with the help of Babel.
+*/
+// import { exec } from "child_process";
+
+/* 
+    Below is CommonJS syntax (require/module.exports):
+*/
+const child_process = require("child_process");
 
 for (let i = 0; i < 3; i++) {
     /* child_process.exec(command[, options], callback) */
-    const childProcessor = exec("node child.js " + i, function(error, stdout, stderr) {
+    /* callback <Function> called with the output when process terminates. */
+    const childProcessor = child_process.exec("node child.js " + i, function(error, stdout, stderr) {
         if (error) {
             console.error(`exec error: ${error}`);
             return;
@@ -17,6 +35,7 @@ for (let i = 0; i < 3; i++) {
     });
 
     childProcessor.on("exit", function(code) {
+        /* Any exit code other than 0 is considered to be an error. */
         console.log("Child process exited, code: " + code);
     });
 }
