@@ -20,7 +20,7 @@ stdout: Process 1 executed.
 stderr:  
 ```  
   
-##spawn:  
+## spawn:  
 Spawns a new process using the given command, with command line arguments in args (args is an array of strings).  
   
 spawn output:  
