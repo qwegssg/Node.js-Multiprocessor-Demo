@@ -2,7 +2,7 @@
 Require <strong>child_process</strong> module to take advantage of multi-processing.  
 ## exec:  
 Spawns a shell then executes the command within that shell, <strong>buffering</strong> any generated output.  
-Call the <strong>callback function</strong> with outout when the process is terminated.  
+Call the <strong>callback function</strong> with output when the process is terminated.  
   
 exec output:  
 ```
